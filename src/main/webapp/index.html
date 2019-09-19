@@ -7,10 +7,15 @@
 <script src="scripts/lodash.min.js"></script>
 
 <script type="text/javascript">
-items = [];
+var app = {
+        items : [],
+        nextpage : 0,
+        prevpage : 0
+};
+
 function updateList() {
     $("#my-list").html("");
-    items.forEach(function (e) {
+    app.items.forEach(function (e) {
         $("#my-list").append("<li>" + e + "</li>");
     });
 }
@@ -20,9 +25,8 @@ function getListItems() {
         url : 'services/items',
         dataType : 'json',
         success : function(r) {
-            items = r.list;
-            $("#next-url").html(r.next);
-            $("#prev-url").html(r.prev);
+            app.items = r.list;
+
             updateList();
         }
     });
@@ -37,7 +41,6 @@ function sendListItem() {
 }
 
 $(document).ready(function () { 
-    $("#my-list").append("<li>test");
     getListItems();
     
     $("#send-item").on('click', function () {
@@ -52,7 +55,9 @@ $(document).ready(function () {
 
 <ul id="my-list"></ul>
 
-<a href=" " id="next-url"></a>
-<a href=" " id="prev-url"></a>
+
+<br>
+<button id="prev-button">Previous</button>
+<button id="next-button">Next</button>
 </body>
 </html>
